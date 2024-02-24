@@ -1,1 +1,1 @@
-# AC_favorite_villagers
+A tool for listing your favorite villager from each species in Animal Crossing!
