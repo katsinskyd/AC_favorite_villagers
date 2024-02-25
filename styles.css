@@ -86,7 +86,7 @@
 .desktop-view #gridContainer {
     grid-template-columns: repeat(7, 1fr);
     border-radius: 15px;
-    width:auto;
+    width: auto;
 }
 
 .desktop-view #mainContent {
@@ -96,6 +96,7 @@
     justify-items: center;
     align-items: center;
     margin-left: 5%;
+    overflow-y: visible;
 }
 
 /* mobile layout */
