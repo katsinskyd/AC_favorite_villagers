@@ -36,36 +36,27 @@ var speciesData = {
     "Wolf": ["Audie", "Chief", "Dobie", "Fang", "Freya", "Kyle", "Lobo", "Skye", "Tarou", "Vivian", "Wolf Link", "Whitney", "Wolfgang"]
 }
 
-var numRows = 5;
-var numColumns = 7;
-var totalCells = numRows * numColumns;
-var table = document.createElement('table');
-table.id = "villagerTable";
-
 document.addEventListener("DOMContentLoaded", function() {
-    // generate table cells
-    function generateTD(species, villagers) {
-        var td = document.createElement('td');
-        var div = document.createElement('div');
-        div.classList.add('villagerContainer');
+    var gridContainer = document.getElementById('gridContainer');
+
+    function generateGridItem(species, villagers) {
+        var gridItem = document.createElement('div');
+        gridItem.classList.add('gridItem');
 
         // species name
         var speciesName = document.createElement('span');
+        speciesName.textContent = species;
         speciesName.classList.add('speciesName');
-        var speciesText = document.createTextNode(species);
-        speciesName.appendChild(speciesText);
-        div.appendChild(speciesName);
-        div.appendChild(document.createElement('br'));
-    
-        // villager image
+        gridItem.appendChild(speciesName);
+
+        // image
         var img = document.createElement('img');
         img.classList.add('villagerImage');
         img.src = 'images/' + villagers[0].toLowerCase() + '.png';
         img.alt = villagers[0];
-        div.appendChild(img);
-        div.appendChild(document.createElement('br'));
+        gridItem.appendChild(img);
 
-        // dropdown menu
+        // dropdown
         var select = document.createElement('select');
         select.classList.add('villagerSelect');
         villagers.forEach(function(villager) {
@@ -74,82 +65,51 @@ document.addEventListener("DOMContentLoaded", function() {
             option.textContent = villager;
             select.appendChild(option);
         });
-    
-        div.appendChild(select);
-        td.appendChild(div);
 
-        // for updating and saving the image
         select.addEventListener('change', function() {
-            updateImageAndSaveSelection(species, this);
+            updateImageAndSaveSelection(this, img);
         });
 
-        // get saved selections from local storage
-        var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
-        var selectedVillager = savedSelections[species];
-        if (selectedVillager) {
-            select.value = selectedVillager;
+        gridItem.appendChild(select);
 
-            select.dispatchEvent(new Event('change'));
-        }
-
-        return td;
+        return gridItem;
     }
 
-    // update and save choices
-    function updateImageAndSaveSelection(species, select) {
-        // image update
+    // save to local storage
+    function updateImageAndSaveSelection(select, img) {
         var selectedVillager = select.value;
-        var container = select.closest('.villagerContainer');
-        var imageElement = container.querySelector('.villagerImage');
-        imageElement.src = 'images/' + selectedVillager.toLowerCase() + '.png';
-        imageElement.alt = selectedVillager;
-
-        // save to local storage
-        saveSelection(species, selectedVillager);
+        img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
+        img.alt = selectedVillager;
+        saveSelection(select.parentElement.firstChild.textContent.trim(), selectedVillager);
     }
 
     function saveSelection(species, selectedVillager) {
         var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
         savedSelections[species] = selectedVillager;
         localStorage.setItem('villagerSelections', JSON.stringify(savedSelections));
-
-        // console.log('Selection saved to localStorage:', savedSelections);
     }
 
-    // generate table
-    function generateTable() {
-        var count = 0;
-        
-        for (var i = 0; i < numRows; i++) {
-            var row = document.createElement('tr');
-            for (var j = 0; j < numColumns; j++) {
-                var species = Object.keys(speciesData)[count];
-                var td = generateTD(species, speciesData[species]);
-                row.appendChild(td);
-                count++;
-                if (count >= totalCells) break;
-            }
-            table.appendChild(row);
+    for (var species in speciesData) {
+        var gridItem = generateGridItem(species, speciesData[species]);
+        gridContainer.appendChild(gridItem);
+    }
+
+    var selects = document.querySelectorAll('.villagerSelect');
+    selects.forEach(function(select) {
+        var species = select.parentElement.firstChild.textContent.trim();
+        var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
+        var selectedVillager = savedSelections[species];
+        if (selectedVillager) {
+            select.value = selectedVillager;
+            updateImageAndSaveSelection(select, select.previousElementSibling);
         }
-        
-        document.body.appendChild(table);
-    }
+    });
 
-    generateTable();
-
-    // hide mobile message
-    function hideMessage() {
-        var mobileMessage = document.getElementById('mobileMessage');
-        mobileMessage.style.display = 'none';
-    }
-
-    var hideButton = document.getElementById('hideButton');
-    if (hideButton) {
-        hideButton.addEventListener('click', hideMessage);
-    }
-    
+    // saves an image that is the same layout on desktop and mobile
     function convertToImage() {
-        html2canvas(document.getElementById("villagerTable")).then(function(canvas) {
+        document.body.classList.add('desktop-view');
+
+        html2canvas(document.getElementById("gridContainer")).then(function(canvas) {
             var imgData = canvas.toDataURL("image/png");
             var link = document.createElement('a');
             link.download = 'villagers.png'; 
@@ -158,10 +118,11 @@ document.addEventListener("DOMContentLoaded", function() {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
+            document.body.classList.remove('desktop-view');
         });
     }
 
     var convertBtn = document.getElementById("convert");
     convertBtn.addEventListener('click', convertToImage);
-
 });

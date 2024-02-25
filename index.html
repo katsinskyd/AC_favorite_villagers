@@ -13,19 +13,22 @@
 
 </head>
 <body>
-    <div class="container">
+    <div id="wrapper">
 
-        <div class="mobile-message" id="mobileMessage">
-            This table is best viewed on desktop currently!<br/><br/> 
-            <button id="hideButton">Ok!</button>
+        <div id="sidebar">
+            <div id="download">
+                <h2>One Villager From Each Species</h2><br/>
+                Click on villager names to select a different one!<br/><br/>
+                Your selections are saved locally so you can come back and make changes any time.<br/><br/>
+                <button id="convert">Download Image</button>
+                <div id="result"></div>
+            </div>
+        </div>
+
+        <div id="mainContent">
+            <div id="gridContainer"></div>
         </div>
 
     </div>
-    <div id="download">
-        Click on villager names to select a different one!<br/><br/>
-        <button id="convert">Download Image</button>
-        <div id="result"></div>
-    </div>
-
 </body>
 </html>
