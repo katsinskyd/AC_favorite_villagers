@@ -42,11 +42,12 @@ var totalCells = numRows * numColumns;
 var table = document.createElement('table');
 
 document.addEventListener("DOMContentLoaded", function() {
+    // generate table cells
     function generateTD(species, villagers) {
         var td = document.createElement('td');
         var div = document.createElement('div');
         div.classList.add('villagerContainer');
-    
+
         // species name
         var speciesName = document.createElement('span');
         speciesName.classList.add('species');
@@ -54,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
         speciesName.appendChild(speciesText);
         div.appendChild(speciesName);
         div.appendChild(document.createElement('br'));
-
+    
         // villager image
         var img = document.createElement('img');
         img.classList.add('villagerImage');
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         img.alt = villagers[0];
         div.appendChild(img);
         div.appendChild(document.createElement('br'));
-    
+
         // dropdown menu
         var select = document.createElement('select');
         select.classList.add('villagerSelect');
@@ -72,80 +73,79 @@ document.addEventListener("DOMContentLoaded", function() {
             option.textContent = villager;
             select.appendChild(option);
         });
+    
+        div.appendChild(select);
+        td.appendChild(div);
 
-        // get selections localStorage
+        // for updating and saving the image
+        select.addEventListener('change', function() {
+            updateImageAndSaveSelection(species, this);
+        });
+
+        // get saved selections from local storage
         var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
-
-        // apply saved selections
-        var selects = table.querySelectorAll('.villagerSelect');
-        selects.forEach(function(select) {
-        var species = select.parentElement.firstChild.textContent.trim();
         var selectedVillager = savedSelections[species];
         if (selectedVillager) {
             select.value = selectedVillager;
-            updateImage(select);
+
+            select.dispatchEvent(new Event('change'));
         }
 
-        select.addEventListener('change', function() {
-            updateImage(this);
-            saveSelection(this);
-        });
-    });
-
-        // update image
-        select.addEventListener('change', function() {
-            var selectedVillager = this.value;
-            img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
-            img.alt = selectedVillager;
-        });
-
-        function updateImage(select) {
-            var selectedVillager = select.value;
-            var container = select.closest('.villagerContainer');
-            var imageElement = container.querySelector('.villagerImage');
-            imageElement.src = 'images/' + selectedVillager.toLowerCase() + '.png';
-            imageElement.alt = selectedVillager;
-        }
-
-        function saveSelection(select) {
-            var species = select.parentElement.firstChild.textContent.trim();
-            var selectedVillager = select.value;
-            savedSelections[species] = selectedVillager;
-            localStorage.setItem('villagerSelections', JSON.stringify(savedSelections));
-        }
-
-        div.appendChild(select);
-        td.appendChild(div);
         return td;
     }
-    
-    var count = 0;
-    
-    for (var i = 0; i < numRows; i++) {
-        var row = document.createElement('tr');
-        for (var j = 0; j < numColumns; j++) {
-            var species = Object.keys(speciesData)[count];
-            var td = generateTD(species, speciesData[species]);
-            row.appendChild(td);
-            count++;
-            if (count >= totalCells) break;
+
+    // update and save choices
+    function updateImageAndSaveSelection(species, select) {
+        // image update
+        var selectedVillager = select.value;
+        var container = select.closest('.villagerContainer');
+        var imageElement = container.querySelector('.villagerImage');
+        imageElement.src = 'images/' + selectedVillager.toLowerCase() + '.png';
+        imageElement.alt = selectedVillager;
+
+        // save to local storage
+        saveSelection(species, selectedVillager);
+    }
+
+    function saveSelection(species, selectedVillager) {
+        var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
+        savedSelections[species] = selectedVillager;
+        localStorage.setItem('villagerSelections', JSON.stringify(savedSelections));
+
+        // console.log('Selection saved to localStorage:', savedSelections);
+    }
+
+    // generate table
+    function generateTable() {
+        var count = 0;
+        
+        for (var i = 0; i < numRows; i++) {
+            var row = document.createElement('tr');
+            for (var j = 0; j < numColumns; j++) {
+                var species = Object.keys(speciesData)[count];
+                var td = generateTD(species, speciesData[species]);
+                row.appendChild(td);
+                count++;
+                if (count >= totalCells) break;
+            }
+            table.appendChild(row);
         }
-        table.appendChild(row);
+        
+        document.body.appendChild(table);
     }
-    
-    document.body.appendChild(table);
-    
-});
 
-// hide mobile message
-function hideMessage() {
-    var mobileMessage = document.getElementById('mobileMessage');
-    mobileMessage.style.display = 'none';
-}
+    generateTable();
 
-document.addEventListener('DOMContentLoaded', function() {
-    var hideButton = document.getElementById('hideButton');
-    if (hideButton) {
-        hideButton.addEventListener('click', hideMessage);
+    // hide mobile message
+    function hideMessage() {
+        var mobileMessage = document.getElementById('mobileMessage');
+        mobileMessage.style.display = 'none';
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var hideButton = document.getElementById('hideButton');
+        if (hideButton) {
+            hideButton.addEventListener('click', hideMessage);
+        }
+    });
 });
