@@ -40,6 +40,7 @@ var numRows = 5;
 var numColumns = 7;
 var totalCells = numRows * numColumns;
 var table = document.createElement('table');
+table.id = "villagerTable";
 
 document.addEventListener("DOMContentLoaded", function() {
     // generate table cells
@@ -50,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // species name
         var speciesName = document.createElement('span');
-        speciesName.classList.add('species');
+        speciesName.classList.add('speciesName');
         var speciesText = document.createTextNode(species);
         speciesName.appendChild(speciesText);
         div.appendChild(speciesName);
@@ -146,4 +147,21 @@ document.addEventListener("DOMContentLoaded", function() {
     if (hideButton) {
         hideButton.addEventListener('click', hideMessage);
     }
+    
+    function convertToImage() {
+        html2canvas(document.getElementById("villagerTable")).then(function(canvas) {
+            var imgData = canvas.toDataURL("image/png");
+            var link = document.createElement('a');
+            link.download = 'villagers.png'; 
+            link.href = imgData;
+
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    var convertBtn = document.getElementById("convert");
+    convertBtn.addEventListener('click', convertToImage);
+
 });

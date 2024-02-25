@@ -14,7 +14,11 @@ body {
 
 .villagerContainer {
     text-align: center;
-  }
+    border-radius: 10px;
+    padding: 3px;
+    background-color: white;
+    margin: 5px;
+}
 
 .villagerSelect {
     width: 100%; 
@@ -22,12 +26,27 @@ body {
     margin-top: 5px; 
     border-radius: 10px;
     text-align: center;
-  }
+    border: none;
+    background-color: transparent;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.villagerSelect:hover {
+    cursor: pointer;
+}
+
+table {
+    padding: 5px;
+    border-radius: 15px;
+    background-color: tan;
+}
 
 td {
     width: 150px;
 }
-  
+
 .mobile-message {
     display: block;
 }
@@ -38,10 +57,15 @@ td {
     background-color: #f0f0f0;
     padding: 10px;
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     z-index: 1;
+}
+
+#download {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
 }
 
 /* mobile layout */
