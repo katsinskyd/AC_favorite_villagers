@@ -3,6 +3,7 @@
     color: brown;
     font-family: "Fredoka", sans-serif;
     font-weight: 500;
+    background-color: transparent;
 }
 
 #wrapper {
@@ -23,10 +24,7 @@
     width: 150px;
     height: 30px;
     font-weight: 600;
-}
-
-#convert:hover {
-    cursor: pointer;
+    background-color: white;
 }
 
 #mainContent {
@@ -78,13 +76,12 @@
     border-radius: 10px;
     text-align: center;
     border: none;
-    background-color: transparent;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 }
 
-.villagerSelect:hover {
+.villagerSelect:hover, #convert:hover {
     cursor: pointer;
 }
 
@@ -104,12 +101,9 @@
 
     #sidebar {
         width: 100%;
-        padding: 5px;
+        padding: 10px;
         order: -1;
-    }
-
-    #sidebarContent {
-        width:90%;
+        box-sizing: border-box;
     }
 
     #wrapper {
