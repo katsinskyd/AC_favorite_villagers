@@ -93,11 +93,11 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
         // update image
-        // select.addEventListener('change', function() {
-        //     var selectedVillager = this.value;
-        //     img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
-        //     img.alt = selectedVillager;
-        // });
+        select.addEventListener('change', function() {
+            var selectedVillager = this.value;
+            img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
+            img.alt = selectedVillager;
+        });
 
         function updateImage(select) {
             var selectedVillager = select.value;
