@@ -142,10 +142,8 @@ document.addEventListener("DOMContentLoaded", function() {
         mobileMessage.style.display = 'none';
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var hideButton = document.getElementById('hideButton');
-        if (hideButton) {
-            hideButton.addEventListener('click', hideMessage);
-        }
-    });
+    var hideButton = document.getElementById('hideButton');
+    if (hideButton) {
+        hideButton.addEventListener('click', hideMessage);
+    }
 });
