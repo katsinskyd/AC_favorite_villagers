@@ -4,4 +4,4 @@ To Do List:
 - Apply CSS
 - Mobile responsiveness
 - Button to save an image of the chart
-- Save options to local storage
+- ~~Save options to local storage~~
