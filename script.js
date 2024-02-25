@@ -38,7 +38,7 @@ var speciesData = {
 
 var numRows = 5;
 var numColumns = 7;
-var totalCells = 35;
+var totalCells = numRows * numColumns;
 var table = document.createElement('table');
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -48,7 +48,10 @@ document.addEventListener("DOMContentLoaded", function() {
         div.classList.add('villagerContainer');
     
         // species name
-        var speciesName = document.createTextNode(species);
+        var speciesName = document.createElement('span');
+        speciesName.classList.add('species');
+        var speciesText = document.createTextNode(species);
+        speciesName.appendChild(speciesText);
         div.appendChild(speciesName);
         div.appendChild(document.createElement('br'));
 
@@ -70,12 +73,46 @@ document.addEventListener("DOMContentLoaded", function() {
             select.appendChild(option);
         });
 
-        // update image
+        // get selections localStorage
+        var savedSelections = JSON.parse(localStorage.getItem('villagerSelections')) || {};
+
+        // apply saved selections
+        var selects = table.querySelectorAll('.villagerSelect');
+        selects.forEach(function(select) {
+        var species = select.parentElement.firstChild.textContent.trim();
+        var selectedVillager = savedSelections[species];
+        if (selectedVillager) {
+            select.value = selectedVillager;
+            updateImage(select);
+        }
+
         select.addEventListener('change', function() {
-            var selectedVillager = this.value;
-            img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
-            img.alt = selectedVillager;
+            updateImage(this);
+            saveSelection(this);
         });
+    });
+
+        // update image
+        // select.addEventListener('change', function() {
+        //     var selectedVillager = this.value;
+        //     img.src = 'images/' + selectedVillager.toLowerCase() + '.png';
+        //     img.alt = selectedVillager;
+        // });
+
+        function updateImage(select) {
+            var selectedVillager = select.value;
+            var container = select.closest('.villagerContainer');
+            var imageElement = container.querySelector('.villagerImage');
+            imageElement.src = 'images/' + selectedVillager.toLowerCase() + '.png';
+            imageElement.alt = selectedVillager;
+        }
+
+        function saveSelection(select) {
+            var species = select.parentElement.firstChild.textContent.trim();
+            var selectedVillager = select.value;
+            savedSelections[species] = selectedVillager;
+            localStorage.setItem('villagerSelections', JSON.stringify(savedSelections));
+        }
 
         div.appendChild(select);
         td.appendChild(div);
@@ -97,4 +134,18 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     document.body.appendChild(table);
+    
+});
+
+// hide mobile message
+function hideMessage() {
+    var mobileMessage = document.getElementById('mobileMessage');
+    mobileMessage.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var hideButton = document.getElementById('hideButton');
+    if (hideButton) {
+        hideButton.addEventListener('click', hideMessage);
+    }
 });
