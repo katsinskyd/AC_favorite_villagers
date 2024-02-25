@@ -6,3 +6,4 @@ To Do List:
 - ~~Button to save an image of the chart~~
 - ~~Save options to local storage~~
 - Add customization options
+- Keep adjusting mobile layout
