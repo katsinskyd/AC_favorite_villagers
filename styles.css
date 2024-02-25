@@ -91,7 +91,7 @@
 /* mobile layout */
 @media screen and (max-width: 768px) {
     #gridContainer {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         border-radius: 0;
         width: 100%;
     }
