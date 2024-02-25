@@ -98,7 +98,12 @@
 
     #sidebar {
         width: 100%;
+        padding: 5px;
         order: -1;
+    }
+
+    #sidebarContent {
+        width:90%;
     }
 
     #wrapper {
@@ -106,7 +111,6 @@
     }
 
     #mainContent {
-        
         margin: 0;
         padding: 0;
     }
