@@ -88,6 +88,12 @@
     cursor: pointer;
 }
 
+.desktop-view #gridContainer {
+    grid-template-columns: repeat(7, 1fr);
+    border-radius: 15px;
+    width:auto;
+}
+
 /* mobile layout */
 @media screen and (max-width: 768px) {
     #gridContainer {
@@ -113,11 +119,5 @@
     #mainContent {
         margin: 0;
         padding: 0;
-    }
-
-    .desktop-view #gridContainer {
-        grid-template-columns: repeat(7, 1fr);
-        border-radius: 15px;
-        width:auto;
     }
 }
