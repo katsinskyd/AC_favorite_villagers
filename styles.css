@@ -29,11 +29,9 @@
 
 #mainContent {
     flex: 1;
-    padding: 20px;
-    display: flex;
-    justify-items: center;
-    align-items: center;
-    margin-left: 5%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 #gridContainer {
@@ -89,6 +87,15 @@
     grid-template-columns: repeat(7, 1fr);
     border-radius: 15px;
     width:auto;
+}
+
+.desktop-view #mainContent {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    margin-left: 5%;
 }
 
 /* mobile layout */
