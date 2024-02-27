@@ -16,6 +16,10 @@
     padding: 20px;
     background-color: tan;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #convert {
@@ -25,6 +29,12 @@
     height: 30px;
     font-weight: 600;
     background-color: white;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+}
+
+#convert:hover {
+    transform: scale(1.05);
 }
 
 #mainContent {
@@ -43,6 +53,7 @@
     border-radius: 15px;
     justify-items: center;
     align-items: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .gridItem {
@@ -56,15 +67,11 @@
     padding: 3px;
     background-color: white;
     margin: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .speciesName {
     margin-bottom: 10px;
-}
-
-.villagerImage {
-    max-width: 100%;
-    height: auto;
 }
 
 .villagerSelect {
@@ -72,6 +79,7 @@
     height: 25px;
     margin-top: 5px; 
     border-radius: 10px;
+    font-size: 18px;
     text-align: center;
     border: none;
     -webkit-appearance: none;
@@ -86,17 +94,13 @@
 .desktop-view #gridContainer {
     grid-template-columns: repeat(7, 1fr);
     border-radius: 15px;
-    width: auto;
 }
 
 .desktop-view #mainContent {
     flex: 1;
-    padding: 20px;
     display: flex;
-    justify-items: center;
-    align-items: center;
-    margin-left: 5%;
     overflow-y: visible;
+    overflow-x: visible;
 }
 
 /* mobile layout */
@@ -104,7 +108,6 @@
     #gridContainer {
         grid-template-columns: repeat(2, 1fr);
         border-radius: 0;
-        width: 100%;
     }
 
     #sidebar {
@@ -120,6 +123,7 @@
     }
 
     #mainContent {
+        width: 100%;
         margin: 0;
         padding: 0;
     }
